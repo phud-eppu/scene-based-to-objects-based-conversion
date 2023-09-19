@@ -1,0 +1,36 @@
+desc:Polar to Cartesian for Dolby Atmos Panner, Przemek Danowski (UMFC, 2023)
+//https://przemekdanowski.com
+
+// Coversion form polar to cartesian.
+// After mapping of the parameters you need to scale them to get proper values of azimuth and elevation angles.
+// To do so set them to offset -50% on parameter link input
+// These functions use values in radians, so to convert to radians, multiply by $pi/180, or 0.017453
+// Scaling values to Dolby Atmos Panner xyz ranges (x,y: -100,100, z: 0,100), 
+// btw. Atmos panner has swapped x and y axis, thus the x/y functions are also swapped
+
+
+
+slider1:Ch0_a=<-180,180,0.01>Ch_0 Azimuth 
+slider2:Ch0_e=<-90,90,0.01>Ch_0 Elevation
+
+slider9:Obj11_x=<-100,100>Obj_11 X
+slider10:Obj11_y=<-100,100>Obj_11 Y
+slider11:Obj11_z=<0,100>Obj_11 Z
+
+
+@init
+Ch0_a;
+Ch0_e;
+r=100;
+
+Obj11_x;
+Obj11_y;
+Obj11_z;
+
+@slider
+Obj11_x=r*(SIN(($pi/180)*(Ch0_a+180))*SIN(($pi/180)*(Ch0_e+90)));
+Obj11_y=r*-(COS(($pi/180)*(Ch0_a+180))*SIN(($pi/180)*(Ch0_e+90)));
+Obj11_z=r*-COS((Ch0_e+90)*($pi/180));
+
+
+
