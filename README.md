@@ -1,1 +1,1 @@
-This is REAPER JSFX Effect. Install it in your REAPER Effects folder. 
+This are REAPER JSFX Effects. Install them in your REAPER Effects folder. 
