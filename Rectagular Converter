@@ -1,0 +1,41 @@
+desc:Cartesian (from Dolby Atmos Panner) to Polar Converter, Przemek Danowski (UMFC, 2023) 
+
+//https://przemekdanowski.com
+
+// Coverter of cartesian coordinates to polar. 
+// These functions use values in radians, so to convert to radians, multiply by $pi/180, or 0.017453
+// Scaling values to Dolby Atmos Panner xyz ranges (x,y: -100,100, z: 0,100), 
+// btw. Atmos panner has swapped x and y axis
+
+
+slider1:x=<-100,100,0.0001>x
+slider2:y=<-100,100,0.0001>y
+slider3:z=<0,100,0.0001>z
+
+slider4:radius=<0,1000,0.0001>radius (r)
+slider5:azimuth=<-180,180,0.0001>Azimuth (theta)
+slider6:elevation=<-90,90,0.0001>Elevation (phi)
+
+@init
+azimuth;
+elevation;
+radius;
+
+x;
+y;
+z;
+
+@slider
+
+radius=sqrt(x*x+y*y+z*z);
+azimuth = ((atan2(x, y) * (180 / $pi)) - 90 + 360) % 360; 
+azimuth = (azimuth + 180) % 360 - 180; 
+
+elevation = (x == 0 && y == 0) ? ((z >= 0) ? 90 : -90) : ((atan2(z, sqrt(x*x + y*y)) * (180 / $pi)) > 90 ? 90 : ((atan2(z, sqrt(x*x + y*y)) * (180 / $pi)) < -90 ? -90 : (atan2(z, sqrt(x*x + y*y)) * (180 / $pi))));
+
+
+
+
+
+
+
